@@ -1,12 +1,19 @@
 import React, {Component} from 'react';
 import Aux from '../../hoc/Auxil';
-import PropTypes from 'prop-types';
 import Burger from '../../components/Burger/Burger';
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+
+const INGREDIENT_PRICES = {
+  salad: 0.5,
+  cheese: 0.4,
+  meat: 1.3,
+  bacon: 1
+};
 
 class BurgerBuilder extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   state = {
     ingredients: {
@@ -14,7 +21,8 @@ class BurgerBuilder extends Component {
       bacon:  0,
       cheese: 0,
       meat:   0
-    }
+    },
+    totalPrice: 4
   };
 
 /*
@@ -47,16 +55,34 @@ class BurgerBuilder extends Component {
   }
 */
 
+  addIngredientHandler = (type) => {
+    const updatedIngredients = {
+      ...this.state.ingredients
+    };
+    const newPrice = this.state.totalPrice + INGREDIENT_PRICES[type];
+
+    updatedIngredients[type] = updatedIngredients[type] + 1;
+
+    this.setState(() => {
+      return {
+        ingredients: updatedIngredients,
+        totalPrice: newPrice
+      };
+    });
+  };
+
+  removeIngredientHandler = (type) => {};
+
   render() {
     return (
       <Aux>
         <Burger ingredients={this.state.ingredients}/>
-        <div>Build Controls</div>
+        <div>total price: {this.state.totalPrice}</div>
+        <BuildControls addIngredient={this.addIngredientHandler}/>
       </Aux>
     );
   }
 }
 
-BurgerBuilder.propTypes = {};
 
 export default BurgerBuilder;
