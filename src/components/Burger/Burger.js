@@ -1,18 +1,19 @@
 import React from 'react';
-import Aux from '../../hoc/Auxil';
 import classes from './Burger.css';
 import BurgerIngredient from '../Burger/BurgerIngredient/BurgerIngredient';
 
 const burger = (props) => {
-
-
+  const transformedIngredients = Object.keys(props.ingredients)
+    .map((ingKey) => {
+      return [...Array(props.ingredients[ingKey])].map((_, i) => {
+        return <BurgerIngredient key={ingKey + i} type={ingKey}/>
+      });
+    });
 
   return (
     <div className={classes.Burger}>
       <BurgerIngredient type="bread-top"/>
-      <BurgerIngredient type="cheese"/>
-      <BurgerIngredient type="meat"/>
-      <BurgerIngredient type="salad"/>
+      {transformedIngredients}
       <BurgerIngredient type="bread-bottom"/>
     </div>
   );
