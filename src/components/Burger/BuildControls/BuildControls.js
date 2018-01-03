@@ -17,14 +17,24 @@ const buildControls = (props) => {
         return <BuildControl
           key={control.label}
           label={control.label}
-          addIngredient={() => props.addIngredient(control.type)}/>
+          addIngredient={() => props.addIngredient(control.type)}
+          removeIngredient={() => props.removeIngredient(control.type)}
+          disabled={props.disabledBtns[control.type]}
+        />
       })}
     </div>
   );
 };
 
 buildControls.propTypes = {
-  addIngredient: PropTypes.func.isRequired
+  disabledBtns: PropTypes.shape({
+    salad: PropTypes.bool,
+    bacon:PropTypes.bool,
+    cheese:PropTypes.bool,
+    meat:PropTypes.bool
+  }),
+  addIngredient: PropTypes.func.isRequired,
+  removeIngredient: PropTypes.func.isRequired
 };
 
 export default buildControls;

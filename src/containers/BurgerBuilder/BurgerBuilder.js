@@ -17,43 +17,43 @@ class BurgerBuilder extends Component {
 
   state = {
     ingredients: {
-      salad:  0,
-      bacon:  0,
+      salad: 0,
+      bacon: 0,
       cheese: 0,
-      meat:   0
+      meat: 0
     },
     totalPrice: 4
   };
 
-/*
-  componentWillMount() {
+  /*
+    componentWillMount() {
 
-  }
+    }
 
-  componentDidMount() {
+    componentDidMount() {
 
-  }
+    }
 
-  componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
 
-  }
+    }
 
-  shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
 
-  }
+    }
 
-  componentWillUpdate(nextProps, nextState) {
+    componentWillUpdate(nextProps, nextState) {
 
-  }
+    }
 
-  componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) {
 
-  }
+    }
 
-  componentWillUnmount() {
+    componentWillUnmount() {
 
-  }
-*/
+    }
+  */
 
   addIngredientHandler = (type) => {
     const updatedIngredients = {
@@ -71,14 +71,45 @@ class BurgerBuilder extends Component {
     });
   };
 
-  removeIngredientHandler = (type) => {};
+  removeIngredientHandler = (type) => {
+    const updatedIngredients = {
+      ...this.state.ingredients
+    };
+
+    if (updatedIngredients[type] <= 0) {
+      return;
+    }
+
+    const newPrice = this.state.totalPrice - INGREDIENT_PRICES[type];
+
+    updatedIngredients[type] = updatedIngredients[type] - 1;
+
+    this.setState(() => {
+      return {
+        ingredients: updatedIngredients,
+        totalPrice: newPrice
+      };
+    });
+
+
+  };
 
   render() {
+    let disabledBtns = {...this.state.ingredients};
+    for (let key in disabledBtns) {
+      disabledBtns[key] = disabledBtns[key] <= 0;
+
+    }
+
     return (
       <Aux>
         <Burger ingredients={this.state.ingredients}/>
         <div>total price: {this.state.totalPrice}</div>
-        <BuildControls addIngredient={this.addIngredientHandler}/>
+        <BuildControls
+          addIngredient={this.addIngredientHandler}
+          removeIngredient={this.removeIngredientHandler}
+          disabledBtns={disabledBtns}
+        />
       </Aux>
     );
   }
