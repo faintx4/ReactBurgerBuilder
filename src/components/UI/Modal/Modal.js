@@ -16,7 +16,7 @@ const modal = (props) => {
       </div>
       <Backdrop
         show={props.show}
-        purchaseCancelHandler={props.purchaseCancelHandler}
+        clicked={props.purchaseCancelHandler}
       />
     </Aux>
 
