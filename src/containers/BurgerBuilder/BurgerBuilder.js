@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+import axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -13,9 +14,6 @@ const INGREDIENT_PRICES = {
 };
 
 class BurgerBuilder extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
 
   state = {
     ingredients: {
@@ -28,36 +26,6 @@ class BurgerBuilder extends Component {
     purchasable: false,
     purchasing: false
   };
-
-  /*
-    componentWillMount() {
-
-    }
-
-    componentDidMount() {
-
-    }
-
-    componentWillReceiveProps(nextProps) {
-
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-
-    }
-
-    componentWillUnmount() {
-
-    }
-  */
 
   addIngredientHandler = (type) => {
     const updatedIngredients = {
@@ -117,7 +85,25 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    return null;
+    const newOrder = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: 'Serhii Blashkin',
+        address: {
+          street: 'Tsurupy 77',
+          zipCode: '74988',
+          country: 'Ukraine'
+        },
+        email: 'test@test.com'
+      },
+      deliveryMethod: 'fastest'
+    };
+
+    axios.post('/orders.json', newOrder)
+      .then(response => {
+        console.log(response);
+    });
   };
 
   render() {
