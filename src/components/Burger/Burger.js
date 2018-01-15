@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './Burger.css';
 import BurgerIngredient from '../Burger/BurgerIngredient/BurgerIngredient';
+import PropTypes from 'prop-types';
 
 const burger = (props) => {
   let transformedIngredients = Object.keys(props.ingredients)
@@ -21,6 +22,10 @@ const burger = (props) => {
       <BurgerIngredient type="bread-bottom"/>
     </div>
   );
+};
+
+burger.propTypes = {
+  ingredients: PropTypes.object.isRequired
 };
 
 export default burger;

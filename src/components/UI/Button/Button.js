@@ -6,11 +6,9 @@ const button = (props) => {
   return (
     <button
       className={[classes.Button, classes[props.btnType]].join(' ')}
-      onClick={props.clickHandler}
-
-    >
+      onClick={props.clickHandler}>
       {props.children}
-      </button>
+    </button>
   );
 };
 
