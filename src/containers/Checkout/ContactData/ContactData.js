@@ -55,7 +55,8 @@ class ContactData extends Component {
         elementConfig: {
           options: [
             {value: 'fastest', displayValue: 'Fastest'},
-            {value: 'cheapest', displayValue: 'Cheapest'}
+            {value: 'cheapest', displayValue: 'Cheapest'},
+            {value: 'test', displayValue: 'Test'},
           ]
         },
         value: ''
@@ -90,11 +91,22 @@ class ContactData extends Component {
     });
   };
 
-  onChangeHandler = (event, inputEl) => {
-    console.log(event.target.value, inputEl);
-    // this.setState({
-    //   formData: {}
-    // });
+  onChangeHandler = (event, inputIdentifier) => {
+    const updatedOrderForm = {
+      ...this.state.formData
+    };
+
+    const updatedFormElement = {
+      ...updatedOrderForm[inputIdentifier]
+    };
+
+    updatedFormElement.value = event.target.value;
+
+    updatedOrderForm[inputIdentifier] = updatedFormElement;
+
+    console.log(inputIdentifier, event.target.value, updatedFormElement);
+
+    this.setState({formData: updatedOrderForm});
   };
 
   createForm = () => {

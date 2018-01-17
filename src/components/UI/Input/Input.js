@@ -16,7 +16,7 @@ const Input = (props) => {
     case ('select'):
       inputElement = (
         <select className={classes.InputElement}
-                value={props.elementConfig.options[0].value}
+                value={props.value}
                 onChange={props.changeHandler}>
           {props.elementConfig.options.map(option => {
             return <option
