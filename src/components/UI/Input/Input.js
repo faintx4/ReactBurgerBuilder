@@ -3,19 +3,26 @@ import PropTypes from 'prop-types';
 import classes from './Input.css';
 
 const Input = (props) => {
-  let inputElement = '';
+  let inputElement = null;
+  const inputClasses = [classes.InputElement];
+
+  if (!props.valid && props.shouldValidate && props.touched) {
+    inputClasses.push(classes.Error);
+  }
 
   switch (props.elementType) {
     case ('input'):
       inputElement = <input
-        className={classes.InputElement}
+        className={inputClasses.join(' ')}
         {...props.elementConfig}
         value={props.value}
-        onChange={props.changeHandler}/>;
+        onChange={props.changeHandler}
+        onBlur={props.blurHandler}
+      />;
       break;
     case ('select'):
       inputElement = (
-        <select className={classes.InputElement}
+        <select className={inputClasses.join(' ')}
                 value={props.value}
                 onChange={props.changeHandler}>
           {props.elementConfig.options.map(option => {
@@ -30,17 +37,21 @@ const Input = (props) => {
       break;
     case ('textarea'):
       inputElement = <textarea
-        className={classes.InputElement}
+        className={inputClasses.join(' ')}
         {...props.elementConfig}
         value={props.value}
-        onChange={props.changeHandler}/>;
+        onChange={props.changeHandler}
+        onBlur={props.blurHandler}
+      />;
       break;
     default:
       inputElement = <input
-        className={classes.InputElement}
+        className={inputClasses.join(' ')}
         {...props.elementConfig}
         value={props.value}
-        onChange={props.changeHandler}/>;
+        onChange={props.changeHandler}
+        onBlur={props.blurHandler}
+      />;
   }
 
 
@@ -54,7 +65,8 @@ const Input = (props) => {
 
 Input.propTypes = {
   elementType: PropTypes.string.isRequired,
-  elementConfig: PropTypes.object.isRequired
+  elementConfig: PropTypes.object.isRequired,
+  changeHandler: PropTypes.func.isRequired
 };
 
 export default Input;

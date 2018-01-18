@@ -27,3 +27,7 @@
     outline: none;
     background-color: #ccc;
 }
+
+.InputElement.Error {
+    background-color: #ff6c62;
+}
