@@ -5,6 +5,7 @@ import axios from '../../../axios-orders';
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import Input from '../../../components/UI/Input/Input';
+import {connect} from 'react-redux';
 
 class ContactData extends Component {
 
@@ -69,7 +70,7 @@ class ContactData extends Component {
           placeholder: 'Your Email'
         },
         validation: {
-          required: true
+          // required: true
         },
         valid: false,
         touched: false,
@@ -85,7 +86,9 @@ class ContactData extends Component {
           ]
         },
         value: '',
-        validation: {},
+        validation: {
+          required: true
+        },
         valid: true
       }
     },
@@ -106,7 +109,7 @@ class ContactData extends Component {
     const newOrder = {
       ingredients: this.props.ingredients,
       price: this.props.totalPrice,
-      formData: formData
+      formData
     };
 
     axios.post('/orders.json', newOrder)
@@ -136,7 +139,8 @@ class ContactData extends Component {
     for (let formElement in updatedOrderForm) {
       formValid = updatedOrderForm[formElement].valid && formValid;
     }
-    this.setState({formData: updatedOrderForm, formValid: formValid});
+
+    this.setState({formData: updatedOrderForm, formValid});
   };
 
   onBlurHandler = (inputIdentifier) => {
@@ -173,7 +177,7 @@ class ContactData extends Component {
   };
 
   checkValidity(value, rules) {
-    let isValid = false;
+    let isValid = true;
 
     if (rules.required) {
       isValid = value.trim() !== '';
@@ -195,10 +199,15 @@ class ContactData extends Component {
         </div>
       </Aux>
     }
-    return (
-      orderForm
-    );
+    return orderForm;
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+  return {
+    ingredients: state.burger.ingredients,
+    totalPrice: state.burger.totalPrice
+  };
+};
+
+export default connect(mapStateToProps)(ContactData);

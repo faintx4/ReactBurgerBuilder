@@ -14,7 +14,6 @@ const button = (props) => {
 };
 
 button.propTypes = {
-  clickHandler: PropTypes.func.isRequired,
   btnType: PropTypes.string.isRequired,
 };
 
