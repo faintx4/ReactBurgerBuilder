@@ -8,24 +8,17 @@ import axios from '../../axios-orders';
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import {connect} from 'react-redux';
-import * as actionTypes from '../../store/actions';
-
+import {addIngredient, removeIngredient, initIngredients} from '../../store/actions/burgerBuilderActions';
 
 class BurgerBuilder extends Component {
 
   state = {
     purchasing: false,
-    error: false
   };
 
-  /*componentDidMount() {
-    axios.get('ingredients.json').then(res => {
-      this.setState({ingredients: res.data});
-    }).catch(error => {
-      this.setState({error: true});
-    })
-  }*/
-
+  componentDidMount() {
+    this.props.initIngredients();
+  }
 
   updatePurchaseState = () => {
     const ingredients = {...this.props.ingredients};
@@ -60,7 +53,7 @@ class BurgerBuilder extends Component {
 
     let orderSummary = null;
 
-    let burger = this.state.error ? <p>Can't load ingredients!</p> : <Spinner/>;
+    let burger = this.props.error ? <p>Can't load ingredients!</p> : <Spinner/>;
 
     if (this.props.ingredients) {
       burger = (
@@ -100,15 +93,25 @@ class BurgerBuilder extends Component {
 const mapStateToProps = (state) => {
   return {
     ingredients: state.burger.ingredients,
-    totalPrice: state.burger.totalPrice
+    totalPrice: state.burger.totalPrice,
+    error: state.burger.error
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addIngredient: (ingredientName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName}),
-    removeIngredient: (ingredientName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName})
+    addIngredient: (ingredientName) => dispatch(addIngredient(ingredientName)),
+    removeIngredient: (ingredientName) => dispatch(removeIngredient(ingredientName)),
+    initIngredients: () => dispatch(initIngredients())
   };
 };
+
+/*
+const mapDispatchToProps = dispatch => {
+  return {
+    addIngredient
+  };
+};*/
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));
