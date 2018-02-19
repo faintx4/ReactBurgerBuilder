@@ -33,3 +33,27 @@ export const purchaseBurger = (orderData) => {
     });
   }
 };
+
+export const purchaseInit = () => {
+  return {
+    type: actionTypes.PURCHASE_INIT
+  };
+};
+
+export const fetchOrdersStart = (orders) => {
+  return {
+    type: actionTypes.FETCH_ORDERS,
+    orders
+  }
+};
+
+export const fetchOrders = () => {
+  return dispatch => {
+    axios.get('orders.json')
+      .then(response => {
+        dispatch(fetchOrdersStart(response.data));
+      }).catch((error) => {
+
+    });
+  };
+};

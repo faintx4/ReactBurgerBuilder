@@ -1,4 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
+const BASE_BURGER_PRICE = 2;
+
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -9,7 +11,7 @@ const INGREDIENT_PRICES = {
 
 const initialBurger = {
   ingredients: null,
-  totalPrice: 2,
+  totalPrice: BASE_BURGER_PRICE,
   error: false
 };
 
@@ -19,7 +21,8 @@ const burgerReducer = (state = initialBurger, action) => {
       return {
         ...state,
         ingredients: {...action.ingredients},
-        error: false
+        error: false,
+        totalPrice: BASE_BURGER_PRICE
       };
     case actionTypes.FETCH_INGREDIENTS_FAILED:
       return {
